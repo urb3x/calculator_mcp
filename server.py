@@ -288,7 +288,13 @@ def main() -> None:
         mcp.run(transport="stdio")
     elif args.transport == "sse":
         from starlette.responses import RedirectResponse
-        app = mcp.sse_app()
+        try:
+            from mcp.server.transport_security import TransportSecuritySettings
+            sec = TransportSecuritySettings(enable_dns_rebinding_protection=False)
+            app = mcp.sse_app(transport_security=sec, host=args.host)
+        except Exception:
+            app = mcp.sse_app()
+
         app.add_middleware(
             CORSMiddleware,
             allow_origins=["*"],
@@ -301,6 +307,7 @@ def main() -> None:
         uvicorn.run(app, host=args.host, port=args.port)
     else:
         mcp.run(transport=args.transport, host=args.host, port=args.port)
+
 
 
 
