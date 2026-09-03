@@ -255,13 +255,15 @@ def calculate(expression: str) -> float:
 def main() -> None:
     """Run the MCP calculator server."""
     import argparse
+    import uvicorn
+    from starlette.middleware.cors import CORSMiddleware
 
     parser = argparse.ArgumentParser(description="Calculator MCP Server")
     parser.add_argument(
         "--transport",
         choices=["stdio", "sse", "streamable-http"],
-        default="stdio",
-        help="Transport type (default: stdio, use sse or streamable-http for web clients like Open WebUI)",
+        default="sse",
+        help="Transport type (default: sse)",
     )
     parser.add_argument(
         "--host",
@@ -271,18 +273,30 @@ def main() -> None:
     parser.add_argument(
         "--port",
         type=int,
-        default=8000,
-        help="Port to bind to when using SSE or HTTP transport (default: 8000)",
+        default=8008,
+        help="Port to bind to when using SSE or HTTP transport (default: 8008)",
     )
 
     args = parser.parse_args()
 
     if args.transport == "stdio":
         mcp.run(transport="stdio")
+    elif args.transport == "sse":
+        app = mcp.sse_app()
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+        print(f"Starting MCP Calculator Server on http://{args.host}:{args.port}/sse (CORS enabled)")
+        uvicorn.run(app, host=args.host, port=args.port)
     else:
         mcp.run(transport=args.transport, host=args.host, port=args.port)
 
 
 if __name__ == "__main__":
     main()
+
 
