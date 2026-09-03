@@ -95,6 +95,21 @@ Add this to your `claude_desktop_config.json`:
 }
 ```
 
+### Open WebUI
+
+Open WebUI supports connecting to MCP servers via **Server-Sent Events (SSE)** or Streamable HTTP.
+
+1. **Start the MCP server with SSE transport:**
+```bash
+python server.py --transport sse --port 8000
+```
+
+2. **Add to Open WebUI:**
+- Go to **Admin Panel** ➔ **Settings** ➔ **External Connections** / **Tools** ➔ **MCP Servers**.
+- Add a new server with URL: `http://localhost:8000/sse` (or `http://host.docker.internal:8000/sse` if Open WebUI is running inside Docker).
+
+---
+
 ### FastMCP / UVX Execution
 
 You can also run directly with `uvx` / `mcp`:
@@ -116,3 +131,4 @@ python test_server.py
 ## 📄 License
 
 MIT License. Open source and free to use.
+

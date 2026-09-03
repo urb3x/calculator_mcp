@@ -254,8 +254,35 @@ def calculate(expression: str) -> float:
 
 def main() -> None:
     """Run the MCP calculator server."""
-    mcp.run()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Calculator MCP Server")
+    parser.add_argument(
+        "--transport",
+        choices=["stdio", "sse", "streamable-http"],
+        default="stdio",
+        help="Transport type (default: stdio, use sse or streamable-http for web clients like Open WebUI)",
+    )
+    parser.add_argument(
+        "--host",
+        default="0.0.0.0",
+        help="Host to bind to when using SSE or HTTP transport (default: 0.0.0.0)",
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8000,
+        help="Port to bind to when using SSE or HTTP transport (default: 8000)",
+    )
+
+    args = parser.parse_args()
+
+    if args.transport == "stdio":
+        mcp.run(transport="stdio")
+    else:
+        mcp.run(transport=args.transport, host=args.host, port=args.port)
 
 
 if __name__ == "__main__":
     main()
+
