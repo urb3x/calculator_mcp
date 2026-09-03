@@ -97,16 +97,24 @@ Add this to your `claude_desktop_config.json`:
 
 ### Open WebUI
 
-Open WebUI supports connecting to MCP servers via **Server-Sent Events (SSE)** or Streamable HTTP.
+You can use this calculator in Open WebUI in two ways:
 
-1. **Start the MCP server with SSE transport:**
+#### Option A: 1-Click Import into Open WebUI (No server needed)
+1. In Open WebUI, go to **Workspace** ➔ **Tools** ➔ click **Import Tools** (or the download/URL icon).
+2. Paste this direct Raw URL:
+```text
+https://raw.githubusercontent.com/urb3x/calculator_mcp/main/openwebui_tool.py
+```
+3. Click **Import** & **Save**!
+
+#### Option B: As MCP Server via SSE
+1. Start the MCP server:
 ```bash
 python server.py --transport sse --port 8000
 ```
+2. In Open WebUI, go to **Admin Panel** ➔ **Settings** ➔ **External Connections** ➔ **MCP Servers** and add:
+`http://localhost:8000/sse` (or `http://host.docker.internal:8000/sse` if running in Docker).
 
-2. **Add to Open WebUI:**
-- Go to **Admin Panel** ➔ **Settings** ➔ **External Connections** / **Tools** ➔ **MCP Servers**.
-- Add a new server with URL: `http://localhost:8000/sse` (or `http://host.docker.internal:8000/sse` if Open WebUI is running inside Docker).
 
 ---
 
