@@ -1,0 +1,73 @@
+{
+  "$schema": "https://chat-plugin-sdk.lobehub.com/schema.json",
+  "identifier": "calculator",
+  "name": "Calculator & Math Tools",
+  "description": "Calculates math expressions, arithmetic operations, square root, power, trigonometric functions, and percentages.",
+  "author": "urb3x",
+  "homepage": "https://github.com/urb3x/calculator_mcp",
+  "version": "1.0.0",
+  "type": "default",
+  "api": [
+    {
+      "name": "calculate",
+      "description": "Evaluate any mathematical expression safely (e.g. 'sqrt(16) + 2^3', 'sin(pi/2)', '(10+5)/3')",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string",
+            "description": "The mathematical expression string to compute"
+          }
+        },
+        "required": ["expression"]
+      }
+    },
+    {
+      "name": "add",
+      "description": "Add two numbers together",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "a": { "type": "number", "description": "First number" },
+          "b": { "type": "number", "description": "Second number" }
+        },
+        "required": ["a", "b"]
+      }
+    },
+    {
+      "name": "multiply",
+      "description": "Multiply two numbers",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "a": { "type": "number", "description": "First number" },
+          "b": { "type": "number", "description": "Second number" }
+        },
+        "required": ["a", "b"]
+      }
+    },
+    {
+      "name": "divide",
+      "description": "Divide number a by number b",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "a": { "type": "number", "description": "Dividend" },
+          "b": { "type": "number", "description": "Divisor" }
+        },
+        "required": ["a", "b"]
+      }
+    },
+    {
+      "name": "sqrt",
+      "description": "Calculate square root of a number",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "n": { "type": "number", "description": "Number to find square root of" }
+        },
+        "required": ["n"]
+      }
+    }
+  ]
+}
