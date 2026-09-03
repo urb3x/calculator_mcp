@@ -22,6 +22,33 @@ try:
 except Exception:
     pass
 
+# Patch SSE transport to handle CORS OPTIONS preflight requests properly on /messages/
+try:
+    from mcp.server.sse import SseServerTransport
+    from starlette.responses import Response as _StarletteResponse
+    from starlette.types import Scope, Receive, Send
+
+    _orig_handle_post_message = SseServerTransport.handle_post_message
+
+    async def _patched_handle_post_message(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["method"] == "OPTIONS":
+            res = _StarletteResponse(
+                status_code=200,
+                headers={
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Max-Age": "86400",
+                },
+            )
+            return await res(scope, receive, send)
+        return await _orig_handle_post_message(self, scope, receive, send)
+
+    SseServerTransport.handle_post_message = _patched_handle_post_message
+except Exception:
+    pass
+
+
 # Support both mcp 2.x (MCPServer) and mcp 1.x / fastmcp (FastMCP)
 try:
     from mcp.server.mcpserver import MCPServer
