@@ -11,6 +11,17 @@ import math
 import operator
 from typing import Any, Callable
 
+# Disable MCP 2.x DNS rebinding protection globally for cloud reverse proxies (Render, Cloudflare, etc.)
+try:
+    import mcp.server.transport_security as _ts
+
+    async def _allow_all_requests(self, request, is_post=False):
+        return None
+
+    _ts.TransportSecurityMiddleware.validate_request = _allow_all_requests
+except Exception:
+    pass
+
 # Support both mcp 2.x (MCPServer) and mcp 1.x / fastmcp (FastMCP)
 try:
     from mcp.server.mcpserver import MCPServer
@@ -22,6 +33,7 @@ except (ImportError, ModuleNotFoundError):
     except (ImportError, ModuleNotFoundError):
         from fastmcp import FastMCP
         mcp = FastMCP("calculator-mcp")
+
 
 # Supported operators for safe AST expression evaluation
 _OPERATORS: dict[type[ast.AST], Callable[..., Any]] = {
