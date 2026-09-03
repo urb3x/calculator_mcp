@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "calculator-mcp"
+version = "0.1.0"
+description = "MCP Calculator Server providing arithmetic and mathematical tools for AI models"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "urb3x" }
+]
+dependencies = [
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+calculator-mcp = "server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
