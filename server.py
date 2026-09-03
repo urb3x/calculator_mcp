@@ -258,6 +258,10 @@ def main() -> None:
     import uvicorn
     from starlette.middleware.cors import CORSMiddleware
 
+    import os
+
+    default_port = int(os.environ.get("PORT", 8008))
+
     parser = argparse.ArgumentParser(description="Calculator MCP Server")
     parser.add_argument(
         "--transport",
@@ -273,11 +277,12 @@ def main() -> None:
     parser.add_argument(
         "--port",
         type=int,
-        default=8008,
-        help="Port to bind to when using SSE or HTTP transport (default: 8008)",
+        default=default_port,
+        help=f"Port to bind to when using SSE or HTTP transport (default: {default_port})",
     )
 
     args = parser.parse_args()
+
 
     if args.transport == "stdio":
         mcp.run(transport="stdio")

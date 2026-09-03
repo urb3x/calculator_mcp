@@ -9,6 +9,4 @@ COPY . .
 
 EXPOSE 8008
 
-ENV PORT=8008
-
-CMD ["python", "server.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8008"]
+CMD ["python", "server.py", "--transport", "sse"]
