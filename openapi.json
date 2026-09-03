@@ -1,0 +1,48 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Calculator Tools API",
+    "description": "Static API schema for mathematical calculations and expression evaluation.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://urb3x.github.io/calculator_mcp"
+    }
+  ],
+  "paths": {
+    "/calculate": {
+      "post": {
+        "operationId": "calculate",
+        "summary": "Evaluate mathematical expression",
+        "description": "Safely evaluates math expressions like 'sqrt(16) + 2^3', 'sin(pi/2)', '(10+5)/3'.",
+        "parameters": [
+          {
+            "name": "expression",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Math expression string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calculation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

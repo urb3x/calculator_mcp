@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator MCP & Plugin Server</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --code-bg: #0b1120;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+    h1 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    p.subtitle {
+      color: var(--muted);
+      margin-top: 0;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      color: var(--accent);
+    }
+    .link-box {
+      background: var(--code-bg);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.75rem 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+    button.copy-btn {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 1rem;
+      white-space: nowrap;
+    }
+    button.copy-btn:hover {
+      opacity: 0.9;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.6rem;
+      border-bottom: 1px solid #334155;
+      font-size: 0.9rem;
+    }
+    th {
+      color: var(--accent);
+    }
+    code {
+      background: var(--code-bg);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧮 Calculator MCP & Static Plugin</h1>
+    <p class="subtitle">Hosted statically on GitHub Pages for Open WebUI, LobeChat, and AI assistants.</p>
+
+    <div class="card">
+      <h2>📦 Static Import Links</h2>
+      <p>Use these URLs to import the tool directly without running any local servers:</p>
+
+      <p><strong>1. Open WebUI Tool URL (Python):</strong></p>
+      <div class="link-box">
+        <span id="openwebui-url">https://raw.githubusercontent.com/urb3x/calculator_mcp/main/openwebui_tool.py</span>
+        <button class="copy-btn" onclick="copyText('openwebui-url')">Copy</button>
+      </div>
+
+      <p><strong>2. LobeChat / Llama-UI Plugin Manifest (JSON):</strong></p>
+      <div class="link-box">
+        <span id="manifest-url">https://raw.githubusercontent.com/urb3x/calculator_mcp/main/plugin.json</span>
+        <button class="copy-btn" onclick="copyText('manifest-url')">Copy</button>
+      </div>
+
+      <p><strong>3. OpenAPI Specification:</strong></p>
+      <div class="link-box">
+        <span id="openapi-url">https://raw.githubusercontent.com/urb3x/calculator_mcp/main/openapi.json</span>
+        <button class="copy-btn" onclick="copyText('openapi-url')">Copy</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🛠️ Available Math Tools</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Parameters</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>calculate</code></td>
+            <td><code>expression: str</code></td>
+            <td>Evaluates expressions (e.g. <code>sqrt(16) + 2^3</code>, <code>sin(pi/2)</code>)</td>
+          </tr>
+          <tr>
+            <td><code>add</code></td>
+            <td><code>a, b</code></td>
+            <td>Adds two numbers</td>
+          </tr>
+          <tr>
+            <td><code>subtract</code></td>
+            <td><code>a, b</code></td>
+            <td>Subtracts b from a</td>
+          </tr>
+          <tr>
+            <td><code>multiply</code></td>
+            <td><code>a, b</code></td>
+            <td>Multiplies two numbers</td>
+          </tr>
+          <tr>
+            <td><code>divide</code></td>
+            <td><code>a, b</code></td>
+            <td>Divides a by b (protects against zero division)</td>
+          </tr>
+          <tr>
+            <td><code>sqrt</code></td>
+            <td><code>n</code></td>
+            <td>Square root calculation</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>
