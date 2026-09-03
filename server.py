@@ -287,6 +287,7 @@ def main() -> None:
     if args.transport == "stdio":
         mcp.run(transport="stdio")
     elif args.transport == "sse":
+        from starlette.responses import RedirectResponse
         app = mcp.sse_app()
         app.add_middleware(
             CORSMiddleware,
@@ -295,10 +296,12 @@ def main() -> None:
             allow_methods=["*"],
             allow_headers=["*"],
         )
+        app.add_route("/", lambda req: RedirectResponse("/sse"), methods=["GET", "POST"])
         print(f"Starting MCP Calculator Server on http://{args.host}:{args.port}/sse (CORS enabled)")
         uvicorn.run(app, host=args.host, port=args.port)
     else:
         mcp.run(transport=args.transport, host=args.host, port=args.port)
+
 
 
 if __name__ == "__main__":
